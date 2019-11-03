@@ -20,3 +20,25 @@
 .App-link {
   color: #09d3ac;
 }
+
+.cardBase {
+  display: flex;
+  justify-content: center;
+}
+
+.gitCard {
+  display: flex;
+  width: 200px;
+  border: 1px solid black;
+  border-radius: 15px;
+  margin: 2rem;
+  padding: 1rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.gitCardImg {
+  width: 200px;
+  height: 200px;
+}
