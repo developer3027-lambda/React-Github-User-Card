@@ -3,12 +3,15 @@ import axios from 'axios';
 import Gitcard from './Gitcard';
 import './App.css';
 import Followers from './Followers';
+import SearchTheme from './SearchTheme';
 
 class App extends React.Component {
   state = {
     user: {},
-    myFollowers: {}
+    myFollowers: [{}]
   }
+
+  
 
 GetMyUser = () => {
     axios
@@ -22,10 +25,10 @@ GetMyUser = () => {
 GetMyFollowers = () => {
     axios
         .get('https://api.github.com/users/Developer3027/followers')
-        .then(res => this.setState({ myFollowers: res.data }) )
+        .then(res => this.setState({ myFollowers: res.data }))
         .catch(err => {
             console.log('Axios, Followers:', err);
-    });
+    })
 };
 
   componentDidMount() {
@@ -34,10 +37,16 @@ GetMyFollowers = () => {
   }
 
   render() {
+    console.log(this.state.user)
     return (
       <div className="App">
-        <Gitcard user={this.state.user} />
-        <Followers follower={this.state.myFollowers} />
+        <div>
+          <SearchTheme />
+        </div>
+        <div className="cardLayout">
+          <Gitcard className="gitCard" user={this.state.user} />
+          <Followers className="followers" follower={this.state.myFollowers} />
+        </div>
       </div>
     );
   }

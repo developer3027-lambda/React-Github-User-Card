@@ -3,15 +3,26 @@ import React from 'react';
 
 
 const Followers = (props) => {
-    console.log(props);
     return(
-        <div className="cardBase">
-            {/*<div className="gitCard">
-                <img className="gitCardImg" src={props.follower.avatar_url} alt="image"></img>
-                <p>{`Bio: ${props.follower.bio}`}</p>
-                <p>{`Location: ${props.follower.location}`}</p>
-    </div>*/}
+        <div className="followBase">
+        {props.follower.map(user => {
+            return (
+                <div>
+                <div className="gitCardFollow">
+                    <a href={user.html_url}>
+                    <h3>{user.login}</h3>
+                    <img className="gitCardImgFollow" 
+                    key={user.id}
+                    src={user.avatar_url} 
+                    alt={user.login} />
+                    <small>{user.id}</small>
+                    </a>
+                </div>
+                </div>
+            );
+        })}
         </div>
+        
     );
 }
 
