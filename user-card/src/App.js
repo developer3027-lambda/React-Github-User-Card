@@ -6,16 +6,19 @@ import Followers from './Followers';
 import SearchTheme from './SearchTheme';
 
 class App extends React.Component {
-  state = {
-    user: {},
-    myFollowers: [{}]
+  constructor() {
+    super();
+  this.state = {
+    user: 'Developer3027',
+    myFollowers: [],
   }
+}
 
   
 
 GetMyUser = () => {
     axios
-    .get('https://api.github.com/users/Developer3027')
+    .get(`https://api.github.com/users/${this.state.user}`)
     .then(res => this.setState({ user: res.data }))
     .catch(err => {
         console.log('Axios, User:', err);
@@ -24,7 +27,7 @@ GetMyUser = () => {
 
 GetMyFollowers = () => {
     axios
-        .get('https://api.github.com/users/Developer3027/followers')
+        .get(`https://api.github.com/users/${this.state.user}/followers`)
         .then(res => this.setState({ myFollowers: res.data }))
         .catch(err => {
             console.log('Axios, Followers:', err);
@@ -36,12 +39,37 @@ GetMyFollowers = () => {
     this.GetMyFollowers();
   }
 
+componentDidUpdate(prevProps, prevState) {
+  if (prevState.user !== this.state.user) {
+    axios
+    .get(`https://api.github.com/users/${this.state.user}`)
+    .then(res => {
+      this.setState({
+        user: res.data
+      });
+      return axios.get(res.data.followers_url);
+    })
+    .then(res => {
+      this.setState({
+        myFollowers: res.data
+      })
+    })
+    .catch(err => console.log(err));
+  }
+}
+
+search = (query) => {
+  this.setState({
+    user: query
+  })
+}
+
   render() {
-    console.log(this.state.user)
+
     return (
       <div className="App">
         <div>
-          <SearchTheme />
+          <SearchTheme search={this.search} />
         </div>
         <div className="cardLayout">
           <Gitcard className="gitCard" user={this.state.user} />
